@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1677450605 "c:/Users/kisnikser/Documents/GitHub/2023-Project-112/paper_Kiselev/Kiselev2023fMRI.tex" "Kiselev2023fMRI.pdf" "Kiselev2023fMRI" 1677450607 0
+["pdflatex"] 1677450924 "c:/Users/kisnikser/Documents/GitHub/2023-Project-112/paper_Kiselev/Kiselev2023fMRI.tex" "Kiselev2023fMRI.pdf" "Kiselev2023fMRI" 1677450927 0
   "C:/Users/kisnikser/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1677447738 446446 fdbffaeb021f4eace1f3819868b7fef4 ""
   "C:/Users/kisnikser/AppData/Local/MiKTeX/fonts/tfm/lh/lh-t2a/labi1200.tfm" 1606593266 3592 9415307df98650ffeddaa22e262436dc ""
   "C:/Users/kisnikser/AppData/Local/MiKTeX/fonts/tfm/lh/lh-t2a/labx1200.tfm" 1602519831 3308 eee81981029f67083258db36df06e523 ""
@@ -215,11 +215,11 @@
   "C:/Users/kisnikser/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/kisnikser/AppData/Local/Programs/MiKTeX/tex/latex/was/icomma.sty" 1665850770 1018 df058db1896806f044e2233bb506d425 ""
   "C:/Users/kisnikser/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "Kiselev2023fMRI.aux" 1677450607 1284 9a73416459d3fcff39b2c763503acb48 "pdflatex"
-  "Kiselev2023fMRI.out" 1677450607 807 86760ddb041dd28ef5bcc25e0b676475 "pdflatex"
-  "Kiselev2023fMRI.tex" 1677450604 1643 7ed53f0749fc607b08aa902547a5fb5c ""
+  "Kiselev2023fMRI.aux" 1677450926 1284 9a73416459d3fcff39b2c763503acb48 "pdflatex"
+  "Kiselev2023fMRI.out" 1677450926 807 86760ddb041dd28ef5bcc25e0b676475 "pdflatex"
+  "Kiselev2023fMRI.tex" 1677450923 1643 7ed53f0749fc607b08aa902547a5fb5c ""
   "arxiv.sty" 1677450555 7912 b0631c51720987987d111d479058240d ""
-  "c:/Users/kisnikser/Documents/GitHub/2023-Project-112/paper_Kiselev/Kiselev2023fMRI.tex" 1677450604 1643 7ed53f0749fc607b08aa902547a5fb5c ""
+  "c:/Users/kisnikser/Documents/GitHub/2023-Project-112/paper_Kiselev/Kiselev2023fMRI.tex" 1677450923 1643 7ed53f0749fc607b08aa902547a5fb5c ""
   "preamble.tex" 1677450556 3689 3640ae066eb7d1d67721e15fc8816b1f ""
   (generated)
   "Kiselev2023fMRI.aux"
