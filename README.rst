@@ -24,7 +24,7 @@
 Abstract
 ========
 
-Purus sit amet luctus venenatis lectus magna fringilla. Condimentum id venenatis a condimentum vitae sapien. Auctor neque vitae tempus quam pellentesque nec nam aliquam. Eget egestas purus viverra accumsan in. Nam aliquam sem et tortor. Donec et odio pellentesque diam volutpat commodo. Odio pellentesque diam volutpat commodo sed egestas. Sit amet dictum sit amet justo. Pellentesque sit amet porttitor eget. Imperdiet sed euismod nisi porta lorem mollis aliquam ut. Quis varius quam quisque id diam vel quam elementum. Ornare lectus sit amet est placerat in. Vulputate dignissim suspendisse in est ante. Elit sed vulputate mi sit amet mauris. Egestas sed tempus urna et pharetra pharetra. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus.
+Внутричерепные записи человека являются ценным и редким источником информации о мозге. В данной работе исследуется задача прогнозирования показаний датчиков FMRI по видеоряду, показанному человеку. Требуется предложить метод апроксимации показаний FMRI по видеоряду на основе трансформер моделей. Новизна работы заключается в проверке гипотезы зависимости между показаниями датчиков и восприятиям внешнего мира человеком. 
 
 Research publications
 ===============================
