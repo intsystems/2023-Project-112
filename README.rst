@@ -11,13 +11,17 @@
 .. |docs| image:: https://github.com/Intelligent-Systems-Phystech/ProjectTemplate/workflows/docs/badge.svg
     :target: https://intelligent-systems-phystech.github.io/ProjectTemplate/
     :alt: Docs status
+    
+.. |br| raw:: html
+
+  <br/>
 
 
 .. class:: center
 
     :Название исследуемой задачи: Моделирование показания FMRI по видео, показанному человеку.
     :Тип научной работы: M1P/НИР
-    :Авторы: Даниил Дмитриевич Дорин\n
+    :Авторы: Даниил Дмитриевич Дорин |br|
              Никита Сергеевич Киселев
     :Научный руководитель: PhD, Грабовой Андрей Валериевич
     :Научный консультант(при наличии): степень, Фамилия Имя Отчество
