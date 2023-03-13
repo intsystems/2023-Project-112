@@ -10,6 +10,7 @@
 \usepackage{microtype}
 \usepackage{lipsum}
 \usepackage{graphicx}
+\usepackage{epstopdf}
 \usepackage{subfig}
 \usepackage[square,sort,comma,numbers]{natbib}
 \usepackage{doi}
@@ -32,6 +33,8 @@
 \usepackage{makecell} % diaghead in a table
 \usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools,dsfont}
 \usepackage{icomma}
+\usepackage[labelfont=bf]{caption}
+\usepackage{subfig} % for subfigures
 
 \newcommand{\bz}{\mathbf{z}}
 \newcommand{\bx}{\mathbf{x}}
@@ -92,6 +95,9 @@
 \renewcommand{\geq}{\ensuremath{\geqslant}}
 \renewcommand{\emptyset}{\varnothing}
 
+\DeclareMathOperator*{\argmax}{arg\,max}  % in your preamble
+\DeclareMathOperator*{\argmin}{arg\,min}  % in your preamble 
+
 \usepackage{hyperref}
 % \usepackage[usenames,dvipsnames,svgnames,table,rgb]{xcolor}
 
@@ -108,7 +114,7 @@
 	urlcolor=blue           % на URL
 }
 
-\graphicspath{{../figures/}}
+\graphicspath{{../figures}}
 
 \usepackage{enumitem} % Для модификаций перечневых окружений
 
@@ -120,3 +126,5 @@
 \makeatletter
 \expandafter\patchcmd\csname\string\algorithmic\endcsname{\itemsep\z@}{\itemsep=1.5mm}{}{}
 \makeatother
+
+\newcommand{\myfigref}[2]{~\ref{#1}.\subref{#2}}% <---- a new macro for referring to a subfigure
