@@ -157,7 +157,7 @@
 		g(\bp_{k_i - \nu \Delta t}) = \bs_i, \ i = 1, \ldots, \mu t.
 	\end{equation}
 
-	Рассмотрим снимок $\bs_l = [v^l_{ijk}] \in \mathbb{R}^{40 \times 64 \times 64}$,
+	Рассмотрим снимок $\bs_{\ell} = [v^{\ell}_{ijk}] \in \mathbb{R}^{40 \times 64 \times 64}$,
 	где $v^l_{ijk} \in \mathbb{R}_+$~--- значение соответствующего вокселя.
 	Для каждого изображения из видеоряда был получен вектор признакового описания
 	размерности $d = 2048$:
@@ -165,7 +165,7 @@
 	Использовалась архитектура нейронной сети ResNet152 без последнего линейного слоя.
 	
 	Таким образом, для каждого вокселя задана выборка
-	\[ \mathfrak{D}_{ijk} = \{(\bx_l, v^l_{ijk}), \ l = 1, \ldots, N \}. \]
+	\[ \mathfrak{D}_{ijk} = \{(\bx_{\ell}, v^{\ell}_{ijk}), \ {\ell} = 1, \ldots, N \}. \]
 
 	Поставлена задача восстановления регрессии
 	\begin{equation}
@@ -184,7 +184,7 @@
 	определим квадратичную функцию потерь:
 	\begin{equation}
 		\label{eq8}
-		\mathcal{L}_{ijk}(\bw_{ijk}, \Delta t) = \sum\limits_{l = 1}^{N_{\bS} - \mu \Delta t} \big(f_{ijk}(\bx_l, \bw_{ijk}) - v_{ijk}\big)^2.
+		\mathcal{L}_{ijk}(\bw_{ijk}, \Delta t) = \sum\limits_{\ell = 1}^{N_{\bS} - \mu \Delta t} \big(f_{ijk}(\bx_{\ell}, \bw_{ijk}) - v^{\ell}_{ijk}\big)^2.
 	\end{equation}
 
 	Требуется найти параметры, доставляющие минимум функционалу потерь $\mathcal{L}_{ijk}(\bw_{ijk}, \Delta t)$
@@ -192,67 +192,86 @@
 	\begin{equation}
 		\label{eq9}
 		\hat{\bw}_{ijk} = \argmin_{\bw_{ijk}} \mathcal{L}_{ijk}(\bw_{ijk}, \Delta t).
-	\end{equation} 
+	\end{equation}
+
+	Минимум функции потерь находится методом наименьших квадратов. Определим матрицу плана
+	\begin{equation}
+		\label{eq10}
+		\bX = [\bx_1\T, \ldots, \bx_N\T]\T = [x^i_j] \in \mathbb{R}^{N \times d}
+	\end{equation}
+	и вектор, компонентами которого являются значения одного и того же вокселя в разных снимках,
+	\begin{equation}
+		\label{eq11}
+		\bv_{ijk} = [v^1_{ijk}, \ldots, v^N_{ijk}]\T \in \mathbb{R}^N.
+	\end{equation}
+	Решение можно записать в виде
+	\begin{equation}
+		\label{eq12}
+		\bw_{ijk} = (\bX\T \bX)^{-1} \bX\T \bv_{ijk} = \bX^{+} \bv_{ijk},
+	\end{equation}
+	где $\bX^{+}$~--- псевдообратная матрица для $\bX$.
+	
+	Получим формулу для восстановленных снимков фМРТ. Введем матрицу весов
+	\begin{equation}
+		\label{eq13}
+		\bW = [\bw_1\T, \ldots, \bw_{W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}\T]\T = [w^i_j] \in \mathbb{R}^{W_{\bS} \cdot H_{\bS} \cdot D_{\bS} \times d}.
+	\end{equation}
+	Тогда строки матрицы
+	\begin{equation}
+		\label{eq14}
+		\bX \cdot \bW\T
+	\end{equation}
+	содержат значения вокселей соответствующего снимка. После преобразования в тензор третьего ранга
+	получаем восстановленный снимок $\bs_{\ell}$.
 
 	Размерность снимка фМРТ предварительно понижается с помощью сверточного слоя MaxPool3D.
 	Рассматриваются коэффициенты сжатия 1, 2, 4 и 8.
 	Значения вокселей нормализуются процедурой MinMaxScale.
 	Производится разделение выборки на обучающую и тестовую.
-	Минимум функции потерь находится методом наименьших квадратов.
 	Качество рассматриваемого метода оценивается с помощью метрики MSE.
-	Усреднение берется по всем снимкам фМРТ в тестовой выборке.
-	К восстановленным снимкам применяется процедура отсечения нефизичных значений
-	и фильтр Гаусса.
+	Усреднение берется по всем снимкам фМРТ в тестовой выборке и по всем вокселям снимка.
 
-\subsection{Предварительные результаты}
+\subsubsection{Предварительные результаты}
 
 	Получены восстановленные снимки фМРТ без предварительного сжатия. 
 	На Рис.~\ref*{fig:1} представлены срезы истинного и восстановленного снимков из 
-	тестовой выборки. На Рис.\myfigref{fig:1}{fig:1-orig} можно наблюдать результат 
-	постобработки восстановленного снимка.
+	тестовой выборки. На Рис.\myfigref{fig:1}{fig:1c} можно наблюдать разность между ними.
 
 	\begin{figure}[h!]
 		\centering
-		\subfloat[Истинный]{\label{fig:1-orig}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-20-_-_-orig.eps}}}
+		\subfloat[Истинный]{\label{fig:1a}{\includegraphics[width=0.33\textwidth]{sub-04-5-1/sub-04-5-1-100-20-_-_-test.png}}}
 		\hfill
-		\subfloat[Восстановленный]{\label{fig:1-pred}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-20-_-_-pred.eps}}}
+		\subfloat[Восстановленный]{\label{fig:1b}{\includegraphics[width=0.33\textwidth]{sub-04-5-1/sub-04-5-1-100-20-_-_-predicted.png}}}
 		\hfill
-		\subfloat[Обработанный]{\label{fig:1-pred-pg}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-20-_-_-pred-pg.eps}}}
+		\subfloat[Разность]{\label{fig:1c}{\includegraphics[width=0.33\textwidth]{sub-04-5-1/sub-04-5-1-100-20-_-_-difference.png}}}
 		\caption{Срез снимка фМРТ из тестовой выборки}
 		\label{fig:1}
 	\end{figure}
 
 	Проанализирована зависимость качества восстановления снимков фМРТ от гиперпараметра $\Delta t$.
-	Использовалось предварительное 4-х кратное сжатие снимка.
+	Использовалось предварительное 8-кратное сжатие снимка.
 	Зависимость метрики MSE от гиперпараметра $\Delta t$ представлена на Рис.~\ref{fig:2}
 
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=0.65\textwidth]{MSE_dt.eps}
+		\includegraphics[width=0.65\textwidth]{subs_MSE_dt.pdf}
 		\caption{Зависимость метрики MSE от гиперпараметра $\Delta t$ на снимке из тестовой выборки}
 		\label{fig:2}
-	\end{figure}
-
-	Оптимальным с точки зрения метрики значением гиперпараметра является $\Delta t~=~4~\text{с}$.
-	Для этого значения гиперпараметра на Рис.~\ref{fig:3} представлены срезы истинного и 
-	восстановленного снимков из тестовой выборки. Как и при анализе зависимости $\text{MSE}(\Delta t)$,
-	использовалось сжатие снимков с коэффициентом 4.
-
-	\begin{figure}[h!]
-		\centering
-		\subfloat[Истинный]{\label{fig:3-orig}{\includegraphics[width=0.33\textwidth]{sub-04-4-4-5-_-_-orig.eps}}}
-		\hfill
-		\subfloat[Восстановленный]{\label{fig:3-pred}{\includegraphics[width=0.33\textwidth]{sub-04-4-4-5-_-_-pred.eps}}}
-		\hfill
-		\subfloat[Обработанный]{\label{fig:3-pred-pg}{\includegraphics[width=0.33\textwidth]{sub-04-4-4-5-_-_-pred-pg.eps}}}
-		\caption{Срез снимка фМРТ из тестовой выборки}
-		\label{fig:3}
 	\end{figure}
 
 	В рассматриваемом методе не учитывается зависимость значений соседних вокселей.
 	Это является его главным недостатком, что приводит к большим выбросам в восстановленных снимках
 	и малой контрастности. Несмотря на это, на восстановленных снимках отчетливо видны границы
 	активных областей.
+
+\subsection{Основной метод}
+
+	Предположим, что каждый снимок фМРТ зависит только от одного изображения и предыдущего снимка.
+	Тогда соответствующее отображение
+	\begin{equation}
+		\label{eq15}
+		g(\bp_{k_i - \nu \Delta t}; \bs_{i-1}) = \bs_i, \ i = 1, \ldots, \mu t.
+	\end{equation}
 
 \section{Анализ ошибки}
 
