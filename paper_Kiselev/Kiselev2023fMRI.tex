@@ -214,12 +214,12 @@
 	Получим формулу для восстановленных снимков фМРТ. Введем матрицу весов
 	\begin{equation}
 		\label{eq13}
-		\bW = [\bw_1\T, \ldots, \bw_{W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}\T]\T = [w^i_j] \in \mathbb{R}^{W_{\bS} \cdot H_{\bS} \cdot D_{\bS} \times d}.
+		\hat{\bW} = [\hat{\bw}_1\T, \ldots, \hat{\bw}_{W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}\T]\T = [\hat{w}^i_j] \in \mathbb{R}^{W_{\bS} \cdot H_{\bS} \cdot D_{\bS} \times d}.
 	\end{equation}
 	Тогда строки матрицы
 	\begin{equation}
 		\label{eq14}
-		\bX \cdot \bW\T = [\hat{v}^{\ell}_{ijk}] \in \mathbb{R}^{N \times W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}
+		\bX \cdot \hat{\bW}\T = [\hat{v}^{\ell}_{ijk}] \in \mathbb{R}^{N \times W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}
 	\end{equation}
 	содержат значения вокселей соответствующего снимка. После преобразования каждой строки в тензор 
 	третьего ранга получаем восстановленный снимок $\hat{\bs}_{\ell}$.
@@ -311,12 +311,12 @@
 	Получим формулу для восстановленных снимков фМРТ. Введем матрицу весов
 	\begin{equation}
 		\label{eq21}
-		\bW = [\bw_1\T, \ldots, \bw_{W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}\T]\T = [w^i_j] \in \mathbb{R}^{W_{\bS} \cdot H_{\bS} \cdot D_{\bS} \times d}.
+		\hat{\bW} = [\hat{\bw}_1\T, \ldots, \hat{\bw}_{W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}\T]\T = [\hat{w}^i_j] \in \mathbb{R}^{W_{\bS} \cdot H_{\bS} \cdot D_{\bS} \times d}.
 	\end{equation}
 	Тогда строки матрицы
 	\begin{equation}
 		\label{eq22}
-		\bX \cdot \bW\T = [\hat{v}^{\ell+1}_{ijk} - \hat{v}^{\ell}_{ijk}] \in \mathbb{R}^{(N-1) \times W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}
+		\bX \cdot \hat{\bW}\T = [\hat{v}^{\ell+1}_{ijk} - \hat{v}^{\ell}_{ijk}] \in \mathbb{R}^{(N-1) \times W_{\bS} \cdot H_{\bS} \cdot D_{\bS}}
 	\end{equation}
 	содержат разности значений вокселей двух последовательных снимков. 
 	
