@@ -94,7 +94,7 @@
 	Задан видеоряд
 	\begin{equation}
 		\label{eq1}
-		\bP = [\bp_1, \ldots, \bp_{\nu t}], \quad\
+		\bP = [\bp_1, \ldots, \bp_{\nu \cdot t}], \quad\
 		\bp_i \in \mathbb{R}^{W_{\bP} \times H_{\bP} \times C_{\bP}},
 	\end{equation}
 	с шириной, высотой и числом каналов изображения $W_{\bP}, H_{\bP}$ и 
@@ -103,7 +103,7 @@
 	Обозначим частоту снимков фМРТ $\mu \in \mathbb{R}$. Задана последовательность снимков 
 	\begin{equation}
 		\label{eq2}
-		\bS = [\bs_1, \ldots, \bs_{\mu t}], \quad\
+		\bS = [\bs_1, \ldots, \bs_{\mu \cdot t}], \quad\
 		\bs_i \in \mathbb{R}^{W_{\bS} \times H_{\bS} \times D_{\bS}},
 	\end{equation}
 	где $W_{\bS}, H_{\bS}$ и $D_{\bS}$~--- размерности воксельного изображения. 
@@ -113,7 +113,7 @@
 	найти такое отображение $g$, что
 	\begin{equation}
 		\label{eq3}
-		g(\bp_1, \ldots, \bp_{k_i - \nu \Delta t}; \bs_1, \ldots, \bs_{i-1}) = \bs_i,
+		g(\bp_1, \ldots, \bp_{k_i - \nu \cdot \Delta t}; \bs_1, \ldots, \bs_{i-1}) = \bs_i,
 		\ i = 1, \ldots, \mu t,
 	\end{equation}
 	где для $i$-го снимка фМРТ номер соответствующего изображения $k_i$ определяется по формуле
@@ -154,7 +154,7 @@
 	отображение
 	\begin{equation}
 		\label{eq5}
-		g(\bp_{k_i - \nu \Delta t}) = \bs_i, \ i = 1, \ldots, \mu t.
+		g(\bp_{k_i - \nu \cdot \Delta t}) = \bs_i, \ i = 1, \ldots, \mu t.
 	\end{equation}
 
 	Рассмотрим снимок $\bs_{\ell} = [v^{\ell}_{ijk}] \in \mathbb{R}^{40 \times 64 \times 64}$,
@@ -177,7 +177,7 @@
 	\[ \bw_{ijk} = [w^{ijk}_1, \ldots, w^{ijk}_{d}]\T \in \mathbb{R}^{d}: \]
 	\begin{equation}
 		\label{eq7}
-		f_{ijk}(\bx, \bw_{ijk}) = \sum\limits_{q = 1}^{d} w^{ijk}_q x_q.
+		f_{ijk}(\bx, \bw_{ijk}) = \langle \bx, \bw_{ijk} \rangle.
 	\end{equation}
 
 	Для модели $f_{ijk}$ с соответствующим ей вектором параметров $\bw_{ijk} \in \mathbb{R}^{d}$
