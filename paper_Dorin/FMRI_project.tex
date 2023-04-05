@@ -97,7 +97,7 @@
 
 
 \section{Постановка задачи}
-Пусть $\mathbf{\Omega}$~--- видеоряд, $\nu$~--- частота кадров, $t$~--- продолжительность видеоряда:
+Пусть $\bm{\Omega}$~--- видеоряд, $\nu$~--- частота кадров, $t$~--- продолжительность видеоряда:
 \begin{equation}
     \bm{\Omega} = (\bm{\omega}_{1}, \dots, \bm{\omega}_{\nu \cdot t}),
 \end{equation}
@@ -106,14 +106,14 @@
 
 Введем также $\mathcal{S}$~--- последовательность фМРТ снимков,  $\mu$~--- частота снимков:
 \begin{equation}
-    \mathcal{S} = (\bm{s}_{1}, \dots, \bm{s}_{\mu \cdot t}),
+    \mathcal{S} = (\bm{s}^{1}, \dots, \bm{s}^{\mu \cdot t}),
 \end{equation}
-где $\bm{s} \in \mathbb{R}^{X_{\bm{s}} \times Y_{\bm{s}} \times Z_{\bm{s}}}$~--- фМРТ снимок, $x_{\bm{s}},~Y_{\bm{s}},~Z_{\bm{s}}$~--- размерность одного измерения.
+где $\bm{s} \in \mathbb{R}^{X_{\bm{s}} \times Y_{\bm{s}} \times Z_{\bm{s}}}$~--- фМРТ снимок, $X_{\bm{s}},~Y_{\bm{s}},~Z_{\bm{s}}$~--- размерность одного измерения.
 
 Также считаем, что известно несколько дополнительных измерений фМРТ $\mathcal{S}_0$ того же испытуемого.
 Необходимо построить отображение $\bm{f}$:
 \begin{equation}
-    {f}(\bm{\omega}_{1}, \dots, \bm{\omega}_{k_i - \nu \cdot \Delta t}, \mathcal{S}_0) = \bm{s}_i,
+    \bm{f}(\bm{\omega}_{1}, \dots, \bm{\omega}_{k_i - \nu \cdot \Delta t}, \mathcal{S}_0) = \bm{s}^i,
 \end{equation}
 которое учитывает задержку $\Delta t$, между фМРТ картиной и моментом получения информации зрительными органами.
 Здесь
@@ -121,7 +121,7 @@
     \label{k_i}
     k_i = \dfrac{\nu \cdot i}{\mu}
 \end{equation}
- номер изображения в момент времени $i$-го снимка фМРТ.
+номер изображения в момент времени $i$-го снимка фМРТ.
 \section{Вычислительный эксперимент}
 \subsection{Цель эксперимента}
 Построить метод аппроксимации снимка фМРТ по видеоряду и нескольким дополнительным измерениям фМРТ того же испытуемого, который 
@@ -148,23 +148,30 @@
 \[ \bm{x}_i = [x^i_1, \ldots, x^i_{d}]^{T} \in \mathbb{R}^{d}, \ i = 1, \ldots, 9750. \]
 	
 Для восстановления значения в каждом вокселе по всему признаковому вектору изображения используется линейная модель с вектором параметров:
-\[ \bm{W}_{ijk} = [w^{ijk}_1, \ldots, w^{ijk}_{d}]^{T} \in \mathbb{R}^{d}: \]
+\[ \bm{w}_{ijk} = [w^{ijk}_1, \ldots, w^{ijk}_{d}]^{T} \in \mathbb{R}^{d}: \]
 \begin{equation}
 	\label{f_ijk}
-	f_{ijk}(\bm{x}, \bm{W}_{ijk}) = \langle \bm{x}, \bm{W}_{ijk} \rangle.
+	f_{ijk}(\bm{x}, \bm{w}_{ijk}) = \langle \bm{x}, \bm{w}_{ijk} \rangle.
 \end{equation}
 
-Для модели $f_{ijk}$ с соответствующим ей вектором параметров $\bm{W}_{ijk} \in \mathbb{R}^{d}$
+Для каждого вокселя в снимке задана обучающая выборка:
+\begin{equation}
+    \mathcal{D}_{ijk} = \left(\bm{x}_l,~s^{l}_{ijk} \right)^{641 - \mu \cdot \Delta t}_{l = 1}
+\end{equation}
+Выборка делится на тренировочную и тестовую в соотношении $7 : 3$. 
+Обозначим число объектов тренировочной выборки $N$.
+
+Для модели $f_{ijk}$, с соответствующей ей тренировочной выборкой,
 определим квадратичную функцию потерь:
 \begin{equation}
 	\label{Loss}
-	\mathcal{L}_{ijk}(\bm{W}_{ijk}, \Delta t) = \sum\limits_{l = 1}^{641 - \mu \cdot \Delta t} \big(f_{ijk}(\bm{x}_l, \bm{W}_{ijk}) - s^{l}_{ijk}\big)^2.
+	\mathcal{L}_{ijk}(\bm{w}_{ijk}, \Delta t) = \sum\limits_{l = 1}^{N} \big(f_{ijk}(\bm{x}_l, \bm{w}_{ijk}) - s^{l}_{ijk}\big)^2.
 \end{equation}
 
-Требуется минимизировать функцию потерь $\mathcal{L}_{ijk}(\bm{W}_{ijk}, \Delta t)$ при фиксированном гиперпараметре $\Delta t$:
+Требуется минимизировать функцию потерь $\mathcal{L}_{ijk}(\bm{w}_{ijk}, \Delta t)$ при фиксированном гиперпараметре $\Delta t$:
 \begin{equation}
 	\label{basic_Problem}
-	\hat{\bm{W}}_{ijk} = \argmin_{\bm{W}_{ijk}} \mathcal{L}_{ijk}(\bm{W}_{ijk}, \Delta t).
+	\hat{\bm{w}}_{ijk} = \argmin_{\bm{w}_{ijk}} \mathcal{L}_{ijk}(\bm{w}_{ijk}, \Delta t).
 \end{equation} 
 
 Одним из параметров модели является коэффициент сжатия воксельных снимков фМРТ. 
@@ -227,7 +234,7 @@
 	\bm{f}(\bm{\omega}_{k_i - \nu \cdot \Delta t}) = \bm{\delta}^i, \ i = 2, \ldots, 641-\mu \cdot \Delta t,
 \end{equation}
 где $\bm{\delta}^i = \bm{s}^i - \bm{s}^{i-1},~\bm{s}^k \in \mathbb{R}^{40 \times 64 \times 64}$~--- тензор снимка фМРТ под номером $k$.
-Обозначим $\delta_{ijk}$ компоненту разницы между тензорами снимков $\bm{\delta}$.
+Обозначим $\delta_{ijk}$~--- компонента разницы между тензорами снимков $\bm{\delta}$.
 Каждое изображения $\bm{\omega}$ из обучающей выборки предобработано с помощью ResNet152 без последнего линейного слоя и представляет собой вектор $\bm{x}$ признаков размерности $d=2048$:
 \[ \bm{x}_i = [x^i_1, \ldots, x^i_{d}]^{T} \in \mathbb{R}^{d}, \ i = 1, \ldots, 9750. \]
 
@@ -266,7 +273,7 @@
 и вектор, компонентами которого являются разности значений одного и того же вокселя в снимках тренировочной выборки,
 \begin{equation}
 \label{Delta}
-    \mathbf{\Delta}_{ijk} = [\delta^{2}_{ijk}, \dots, \delta^{N+1}_{ijk}]^T \in \mathbb{R}^{N}.
+    \bm{\Delta}_{ijk} = [\delta^{2}_{ijk}, \dots, \delta^{N+1}_{ijk}]^T \in \mathbb{R}^{N}.
 \end{equation}
 Тогда решение можно записать в виде:
 \begin{equation}
