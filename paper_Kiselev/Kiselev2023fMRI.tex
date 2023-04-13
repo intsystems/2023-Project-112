@@ -219,6 +219,7 @@
 
 	\begin{table}
 		\centering
+		\caption{Описание выборки}
 		\begin{tabular}{|c|c|c|}
 			\hline
 			Название & Обозначение & Значение \\
@@ -229,7 +230,6 @@
 			Размерности изображения & $W, H, C$ & 640, 480, 3 \\ \hline
 			Размерности снимка & $X, Y, Z$ & 40, 64, 64 \\ \hline
 		\end{tabular}
-		\caption{Описание выборки}
 		\label{table:sample}
 	\end{table}
 
@@ -313,12 +313,12 @@
 
 	\begin{table}[h!]
 		\centering
+		\caption{Проверка гипотезы инвариантности весов модели относительно человека}
 		\begin{tabular}{|c|c|c|}
 			\hline
 			Матрица весов	&	Истинная	&	Подмешанная \\ \hline \hline
 			MSE		& 	$1.02 \cdot 10^{-4}$	 &		$1.05 \cdot 10^{-4}$ \\ \hline
 		\end{tabular}
-		\caption{Проверка гипотезы инвариантности весов модели относительно человека}
 		\label{table:inv}
 	\end{table}
 
@@ -358,12 +358,12 @@
 
 	\begin{table}[h!]
 		\centering
+		\caption{Качество работы метода на случайном шуме}
 		\begin{tabular}{|c|c|c|}
 			\hline
 			Выборка	&	Истинная	&	Случайный шум \\ \hline \hline
 			MSE		& 	$2 \cdot 10^{-3}$	 &		$10^{-1}$ \\ \hline
 		\end{tabular}
-		\caption{Качество работы метода на случайном шуме}
 		\label{table:2}
 	\end{table}
 
