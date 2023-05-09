@@ -5,6 +5,7 @@
 \usepackage{graphicx,epsfig}
 \usepackage{caption}
 \usepackage{subfig}
+\usepackage{bm}
 \usetheme{Warsaw}%{Singapore}%{Warsaw}%{Warsaw}%{Darmstadt}
 \usecolortheme{sidebartab}
 %\definecolor{beamer@blendedblue}{RGB}{15,120,80}
@@ -55,41 +56,48 @@
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Постановка задачи}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\textwidth]{scheme.png}
+    \end{figure}
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}{Постановка задачи}
     Пусть задана частота кадров $\nu \in \mathbb{R}$ и продолжительность $t \in \mathbb{R}$ видеоряда. 
 	Задан видеоряд
 	\begin{equation*}
 		\label{eq1}
-		\mathbf{P} = [\mathbf{p}_1, \ldots, \mathbf{p}_{\nu \cdot t}], \quad\
-		\mathbf{p}_i \in \mathbb{R}^{W_{\mathbf{P}} \times H_{\mathbf{P}} \times C_{\mathbf{P}}}.
+		\mathbf{P} = [\mathbf{p}_1, \ldots, \mathbf{p}_{\nu t}], \quad\
+		\mathbf{p}_{\ell} \in \mathbb{R}^{W \times H \times C}.
 	\end{equation*}
 
 	Обозначим частоту снимков фМРТ $\mu \in \mathbb{R}$. Задана последовательность снимков 
 	\begin{equation*}
 		\label{eq2}
-		\mathbf{S} = [\mathbf{s}_1, \ldots, \mathbf{s}_{\mu \cdot t}], \quad\
-		\mathbf{s}_i \in \mathbb{R}^{W_{\mathbf{S}} \times H_{\mathbf{S}} \times D_{\mathbf{S}}}.
+		\mathbf{S} = [\mathbf{s}_1, \ldots, \mathbf{s}_{\mu t}], \quad\
+		\mathbf{s}_{\ell} \in \mathbb{R}^{X \times Y \times Z}.
 	\end{equation*}
 
 	Необходимо построить отображение
     \begin{block}{}
         \begin{equation*}
             \label{eq3}
-            \mathbf{g}(\mathbf{p}_1, \ldots, \mathbf{p}_{k_i - \nu \cdot \Delta t}; \mathbf{s}_1, \ldots, \mathbf{s}_{i-1}) = \mathbf{s}_i - \mathbf{s}_{i-1} = \mathbf{\Delta}_{i-1},
+            \mathbf{g}(\mathbf{p}_1, \ldots, \mathbf{p}_{k_{\ell} - \nu \Delta t}; \mathbf{s}_1, \ldots, \mathbf{s}_{\ell-1}) = \mathbf{s}_{\ell},
         \end{equation*}
         \begin{equation*}
             \label{eq4}
-            i = 1, \ldots, \mu t, \qquad k_i = \dfrac{i \cdot \nu}{\mu}.
+            \ell = 1, \ldots, \mu t, \qquad k_{\ell} = \dfrac{\ell \cdot \nu}{\mu}.
         \end{equation*}
     \end{block}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Описание метода}
-    Снимок $\mathbf{s}_i$ зависит только от $\mathbf{p}_{k_i - \nu \Delta t}$ и $\mathbf{s}_{i-1}$.
+    Снимок $\mathbf{s}_{\ell}$ зависит только от $\mathbf{p}_{k_\ell - \nu \Delta t}$ и $\mathbf{s}_{\ell-1}$.
 	\begin{equation*}
 		\label{eq4}
-		\mathbf{g}(\mathbf{p}_{k_i - \nu \Delta t}; \mathbf{s}_{i-1}) = \mathbf{\Delta}_{i-1}, \ i = 1, \ldots, \mu t.
+		\mathbf{g}(\mathbf{p}_{k_{\ell} - \nu \Delta t}; \mathbf{s}_{\ell-1}) = \mathbf{s}_{\ell} - \mathbf{s}_{\ell-1} = \bm{\delta}_{\ell}, \ \ell = 2, \ldots, \mu t.
 	\end{equation*}
-    Число снимков в выборке $N = N_{\mathbf{S}} - \mu \Delta t - 1$.
+    Число пар (изображение, снимок): $N = \mu (t - \Delta t)$.
     \begin{block}{Модель, функция потерь и решение}
         \begin{equation*}
             \label{eq5}
@@ -97,16 +105,17 @@
         \end{equation*}
         \begin{equation*}
             \label{eq6}
-            \mathcal{L}_{ijk}(\mathbf{w}_{ijk}, \Delta t) = \sum\limits_{\ell = 2}^{N_{\mathbf{S}} - \mu \Delta t} \big(f_{ijk}(\mathbf{x}_{\ell}, \mathbf{w}_{ijk}) - (v^{\ell}_{ijk} - v^{\ell-1}_{ijk})\big)^2 + \alpha \| \mathbf{w}_{ijk} \|_2^2
+            \mathcal{L}_{ijk}(\mathbf{w}_{ijk}, \Delta t) = \sum\limits_{\ell = 2}^{N} \big(f_{ijk}(\mathbf{x}_{\ell}, \mathbf{w}_{ijk}) - \delta_{ijk}^{\ell} \big)^2 + \alpha \| \mathbf{w}_{ijk} \|_2^2
         \end{equation*}
         \begin{equation*}
             \label{eq7}
             \hat{\mathbf{w}}_{ijk} = \argmin_{\mathbf{w}_{ijk}} \mathcal{L}_{ijk}(\mathbf{w}_{ijk}, \Delta t)
         \end{equation*}
+        \vspace{-0.5cm}
         \begin{itemize}
             \item $\mathbf{x}_{\ell} = [x^{\ell}_1, \ldots, x^{\ell}_{d}]\T \in \mathbb{R}^{d}$~--- признаки изображения;
             \item $\mathbf{w}_{ijk} = [w^{ijk}_1, \ldots, w^{ijk}_{d}]\T \in \mathbb{R}^{d}$~--- вектор параметров;
-            \item $\mathbf{s}_{\ell} = [v^{\ell}_{ijk}] \in \mathbb{R}^{W_{\mathbf{S}} \times H_{\mathbf{S}} \times D_{\mathbf{S}}}$~--- снимок фМРТ.
+            \item $\bm{\delta}_{\ell} = [\delta^{\ell}_{ijk}] \in \mathbb{R}^{X \times Y \times Z}$~--- разность между двумя последовательными снимками фМРТ.
         \end{itemize}
     \end{block}
 \end{frame}
@@ -143,7 +152,7 @@
 		\includegraphics[width=0.65\textwidth]{subs_delta_MSE_dt.pdf}
 		\label{fig:3}
 	\end{figure}
-    Наблюдается минимум MSE при $\Delta t = 10 \text{ с}$.
+    Наблюдается характерный минимум при $\Delta t \approx 10 \text{ с}$.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Восстановленный снимок}
@@ -158,7 +167,7 @@
 		\subfloat[Разность]{\label{fig:4c}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-1000/sub-04-5-1-1000-100-20-_-_-difference.png}}}
 		\label{fig:4}
 	\end{figure}
-    Значения вокселей лежат в отрезке $[0, 1]$, поэтому ошибка порядка $10^{-3} \div 10^{-2}$
+    Значения вокселей лежат в отрезке $[0; 1]$, поэтому ошибка порядка $10^{-3} \div 10^{-2}$
     свидетельствует о достаточно точном предсказании.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
@@ -206,7 +215,7 @@
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Проверка работы на случайном шуме}
     Рассмотрено качество работы метода на случайном шуме. В качестве матрицы $\mathbf{X}$
-	взята матрица случайных чисел из $[0, 1)$. Ниже приведены срезы последнего снимка, восстановленного
+	взята матрица случайных чисел из $[0; 1]$. Ниже приведены срезы последнего снимка, восстановленного
     последовательно по всем предсказанным изменениям, и значения метрики MSE.
 	\begin{figure}[h!]
 		\centering
