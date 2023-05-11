@@ -126,13 +126,25 @@
 
 	Обозначим снимок фМРТ как $\bs_{\ell} = [v^{\ell}_{ijk}] \in \mathbb{R}^{X \times Y \times Z}$,
 	где $v^{\ell}_{ijk} \in \mathbb{R}_+$~--- значение соответствующего вокселя.
-	Предположим, что каждый снимок зависит только от одного изображения и предыдущего снимка.
+	Предположим, что для последовательности снимков выполнено марковское свойство,
+	т.е. каждый снимок зависит только от одного изображения и предыдущего снимка.
 	Тогда соответствующее отображение можно записать в виде
 	\begin{equation}
 		\label{eq5}
-		\mathbf{g}(\bp_{k_{\ell} - \nu \Delta t}; \bs_{\ell-1}) = \bs_{\ell} - \bs_{\ell-1} = \bdelta_{\ell}, \ \ell = 2, \ldots, \mu t.
+		\mathbf{g}(\bp_{k_{\ell} - \nu \Delta t}) = \bs_{\ell} - \bs_{\ell-1} = \bdelta_{\ell}, \ \ell = 2, \ldots, \mu t.
 	\end{equation}
 	где $\bdelta_{\ell} = [v^{\ell}_{ijk} - v^{\ell-1}_{ijk}] = [\delta^{\ell}_{ijk}] \in \mathbb{R}^{X \times Y \times Z}$~--- разность между двумя последовательными снимками.
+
+	Отображение $\mathbf{g}: \mathbf{P} \to \mathbf{S}$ можно представить в виде композиции 
+	двух других:
+    \[ \mathbf{g} = \bm{\varphi} \circ \bm{\psi}, \]
+	\vspace{-0.8cm}
+    \begin{align*}
+        &\bm{\psi}: \mathbf{P} \to \mathbb{R}^d
+        \text{~--- векторизация изображения,}\\
+        &\bm{\varphi}: \mathbb{R}^d \to \mathbf{S}
+        \text{~--- восстанавливаемое отображение.}
+    \end{align*}
 
 	Для каждого изображения из видеоряда имеем вектор признакового описания размерности $d$:
 	\[ \bx_{\ell} = [x^{\ell}_1, \ldots, x^{\ell}_{d}]\T \in \mathbb{R}^{d}, \ {\ell} = 1, \ldots, \nu t. \]

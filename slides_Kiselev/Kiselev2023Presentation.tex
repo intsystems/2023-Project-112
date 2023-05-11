@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[10pt]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
 \usepackage{amsmath,mathrsfs,mathtext}
@@ -10,7 +10,71 @@
 \usecolortheme{sidebartab}
 %\definecolor{beamer@blendedblue}{RGB}{15,120,80}
 
+%% отключение навигации по слайдам справа внизу
+\beamertemplatenavigationsymbolsempty
+
+%% отступы слева и справа (как бы поля)
+\setbeamersize{text margin left=1.5em,text margin right=1.5em} 
+
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\bt}{\mathbf{t}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\bs}{\mathbf{s}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bZ}{\mathbf{Z}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bU}{\mathbf{U}}
+\newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bF}{\mathbf{F}}
+\newcommand{\bomega}{\boldsymbol{\omega}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bgamma}{\boldsymbol{\gamma}}
+\newcommand{\bdelta}{\boldsymbol{\delta}}
+\newcommand{\bPsi}{\boldsymbol{\Psi}}
+\newcommand{\bpsi}{\boldsymbol{\psi}}
+\newcommand{\bxi}{\boldsymbol{\xi}}
+\newcommand{\bchi}{\boldsymbol{\chi}}
+\newcommand{\bzeta}{\boldsymbol{\zeta}}
+\newcommand{\blambda}{\boldsymbol{\lambda}}
+\newcommand{\beps}{\boldsymbol{\varepsilon}}
+\newcommand{\bZeta}{\boldsymbol{Z}}
+% mathcal
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cW}{\mathcal{W}}
+
+\newcommand{\dH}{\mathds{H}}
+\newcommand{\dR}{\mathds{R}}
+% transpose
 \newcommand{\T}{^{\mathsf{T}}}
+
+% \renewcommand{\shorttitle}{\textit{arXiv} Шаблон}
+\renewcommand{\epsilon}{\ensuremath{\varepsilon}}
+\renewcommand{\phi}{\ensuremath{\varphi}}
+\renewcommand{\kappa}{\ensuremath{\varkappa}}
+\renewcommand{\le}{\ensuremath{\leqslant}}
+\renewcommand{\leq}{\ensuremath{\leqslant}}
+\renewcommand{\ge}{\ensuremath{\geqslant}}
+\renewcommand{\geq}{\ensuremath{\geqslant}}
+\renewcommand{\emptyset}{\varnothing}
+
 \DeclareMathOperator*{\argmax}{arg\,max}  % in your preamble
 \DeclareMathOperator*{\argmin}{arg\,min}  % in your preamble 
 
@@ -41,7 +105,7 @@
 %-----------------------------------------------------------------------------------------------------
 \begin{frame}{Цель исследования}
     \begin{block}{Проблема}
-        Аппроксимация показаний датчиков фМРТ при взаимодействии человека с внешним миром.
+        Восстановление показаний датчиков фМРТ при взаимодействии человека с внешним миром.
     \end{block}
     \begin{block}{Цель}
         Аппроксимация последовательности снимков фМРТ по видеоряду,
@@ -49,7 +113,7 @@
     \end{block}
     \begin{block}{Предлагается}
         \begin{enumerate}
-            \item Восстановление изменения снимка фМРТ с учетом времени задержки $\Delta t$.
+            \item Восстановление изменения снимка фМРТ с учетом времени задержки~$\Delta t$.
             \item Исследование свойств построенного метода и проверка гипотез.
         \end{enumerate}
     \end{block}
@@ -58,7 +122,7 @@
 \begin{frame}{Постановка задачи}
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=\textwidth]{scheme.png}
+        \includegraphics[width=0.9\textwidth]{scheme.png}
     \end{figure}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
@@ -78,46 +142,77 @@
 		\mathbf{s}_{\ell} \in \mathbb{R}^{X \times Y \times Z}.
 	\end{equation*}
 
-	Необходимо построить отображение
+	Необходимо построить отображение, которое бы учитывало задержку $\Delta t$ между
+	снимком фМРТ и видеорядом, а также предыдущие томографические показания.
     \begin{block}{}
         \begin{equation*}
             \label{eq3}
             \mathbf{g}(\mathbf{p}_1, \ldots, \mathbf{p}_{k_{\ell} - \nu \Delta t}; \mathbf{s}_1, \ldots, \mathbf{s}_{\ell-1}) = \mathbf{s}_{\ell},
         \end{equation*}
         \begin{equation*}
-            \label{eq4}
             \ell = 1, \ldots, \mu t, \qquad k_{\ell} = \dfrac{\ell \cdot \nu}{\mu}.
         \end{equation*}
     \end{block}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Описание метода}
-    Снимок $\mathbf{s}_{\ell}$ зависит только от $\mathbf{p}_{k_\ell - \nu \Delta t}$ и $\mathbf{s}_{\ell-1}$.
+    \textbf{Предположение марковости:}\\
+    Снимок $\mathbf{s}_{\ell}$ зависит только от изображения $\mathbf{p}_{k_\ell - \nu \Delta t}$
+    и снимка $\mathbf{s}_{\ell-1}$, тогда
 	\begin{equation*}
 		\label{eq4}
-		\mathbf{g}(\mathbf{p}_{k_{\ell} - \nu \Delta t}; \mathbf{s}_{\ell-1}) = \mathbf{s}_{\ell} - \mathbf{s}_{\ell-1} = \bm{\delta}_{\ell}, \ \ell = 2, \ldots, \mu t.
+		\mathbf{g}(\mathbf{p}_{k_{\ell} - \nu \Delta t}) = \mathbf{s}_{\ell} - \mathbf{s}_{\ell-1} = \bm{\delta}_{\ell}, \ \ell = 2, \ldots, \mu t.
 	\end{equation*}
-    Число пар (изображение, снимок): $N = \mu (t - \Delta t)$.
-    \begin{block}{Модель, функция потерь и решение}
-        \begin{equation*}
-            \label{eq5}
-            f_{ijk}(\mathbf{x}, \mathbf{w}_{ijk}) = \langle \mathbf{x}, \mathbf{w}_{ijk} \rangle
-        \end{equation*}
-        \begin{equation*}
-            \label{eq6}
-            \mathcal{L}_{ijk}(\mathbf{w}_{ijk}, \Delta t) = \sum\limits_{\ell = 2}^{N} \big(f_{ijk}(\mathbf{x}_{\ell}, \mathbf{w}_{ijk}) - \delta_{ijk}^{\ell} \big)^2 + \alpha \| \mathbf{w}_{ijk} \|_2^2
-        \end{equation*}
-        \begin{equation*}
-            \label{eq7}
-            \hat{\mathbf{w}}_{ijk} = \argmin_{\mathbf{w}_{ijk}} \mathcal{L}_{ijk}(\mathbf{w}_{ijk}, \Delta t)
-        \end{equation*}
-        \vspace{-0.5cm}
-        \begin{itemize}
-            \item $\mathbf{x}_{\ell} = [x^{\ell}_1, \ldots, x^{\ell}_{d}]\T \in \mathbb{R}^{d}$~--- признаки изображения;
-            \item $\mathbf{w}_{ijk} = [w^{ijk}_1, \ldots, w^{ijk}_{d}]\T \in \mathbb{R}^{d}$~--- вектор параметров;
-            \item $\bm{\delta}_{\ell} = [\delta^{\ell}_{ijk}] \in \mathbb{R}^{X \times Y \times Z}$~--- разность между двумя последовательными снимками фМРТ.
-        \end{itemize}
-    \end{block}
+
+    Отображение $\mathbf{g}: \mathbf{P} \to \mathbf{S}$ представимо в виде композиции
+    \[ \mathbf{g} = \bm{\varphi} \circ \bm{\psi}, \]
+    \vspace{-0.8cm}
+    \begin{align*}
+        &\bm{\psi}: \mathbf{P} \to \mathbb{R}^d
+        \text{~--- векторизация изображения,}\\
+        &\bm{\varphi}: \mathbb{R}^d \to \mathbf{S}
+        \text{~--- восстанавливаемое отображение.}
+    \end{align*}
+
+    Для векторизации используется ResNet152 без последнего линейного слоя.
+    Суммарное число пар (изображение, снимок): $N = \mu (t - \Delta t)$.\\
+    Таким образом, для каждого вокселя задана выборка
+    \[ \mathfrak{D}_{ijk} = \{(\mathbf{x}_{\ell}, \delta^{\ell}_{ijk}) \ | \ {\ell} = 2, \ldots, N \}. \]
+    \vspace{-0.5cm}
+    \begin{itemize}
+        \item $\mathbf{x}_{\ell} = [x^{\ell}_1, \ldots, x^{\ell}_{d}]\T \in \mathbb{R}^{d}$~--- признаки изображения;
+        \item $\bm{\delta}_{\ell} = [\delta^{\ell}_{ijk}] \in \mathbb{R}^{X \times Y \times Z}$~--- разность между двумя последовательными снимками фМРТ.
+    \end{itemize}
+
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}{Модель, функция потерь и решение}
+    Используется линейная модель с вектором параметров 
+	\[ \mathbf{w}_{ijk} = [w^{ijk}_1, \ldots, w^{ijk}_{d}]\T \in \mathbb{R}^{d}: \]
+	\begin{equation*}
+		\label{eq5}
+		f_{ijk}(\mathbf{x}, \mathbf{w}_{ijk}) = \langle \mathbf{x}, \mathbf{w}_{ijk} \rangle.
+	\end{equation*}
+    Квадратичная функция потерь с коэффициентом $L_2$-регуляризации $\alpha \in \mathbb{R}$:
+	\begin{equation*}
+		\label{eq6}
+		\mathcal{L}_{ijk}(\mathbf{w}_{ijk}, \Delta t) = \sum\limits_{\ell = 2}^{N} \big(f_{ijk}(\mathbf{x}_{\ell}, \mathbf{w}_{ijk}) - \delta^{\ell}_{ijk}\big)^2 + \alpha \| \mathbf{w}_{ijk} \|_2^2,
+	\end{equation*}
+    Требуется найти параметры, доставляющие минимум функционалу потерь при фиксированном $\Delta t$:
+    \begin{equation*}
+        \label{eq7}
+        \hat{\mathbf{w}}_{ijk} = \argmin_{\mathbf{w}_{ijk}} \mathcal{L}_{ijk}(\mathbf{w}_{ijk}, \Delta t).
+    \end{equation*}
+    Решение для каждого вокселя находится методом наименьших квадратов:
+    \begin{equation*}
+		\label{eq8}
+		\hat{\bw}_{ijk} = (\bX\T \bX + \alpha \mathbf{I})^{-1} \bX\T \mathbf{\Delta v}_{ijk}.
+	\end{equation*}
+    \vspace{-0.5cm}
+    \begin{itemize}
+        \item $\bX = [\bx_2\T, \ldots, \bx_N\T]\T = [x^i_j] \in \mathbb{R}^{(N-1) \times d}$~--- матрица объекты-признаки;
+        \item $\mathbf{\Delta v}_{ijk} = [\delta^2_{ijk}, \ldots, \delta^N_{ijk}]\T \in \mathbb{R}^{N-1}$~--- вектор изменения вокселя в снимках.
+    \end{itemize}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Вычислительный эксперимент}
@@ -133,13 +228,21 @@
                     \end{itemize}
         \end{enumerate}
     \end{block}
+    \vspace{-0.2cm}
     \begin{block}{Данные}
         Реальное фМРТ-обследование\footnotemark 30 испытуемых разного пола и возраста.
         Каждый из них просматривал короткий аудиовизуальный фильм.
-        Продолжительность фильма $t = 390$~с, частота кадров $\nu = 25$.
-        Частота снимков $\mu = 1.64$.
+        Продолжительность фильма $t = 390$~с, частота кадров $\nu = 25$~$\text{с}^{-1}$.\\
+        Частота снимков фМРТ $\mu = 1.64$~$\text{с}^{-1}$.
     \end{block}
-    \footnotetext[1]{\href{https://doi.org/10.1038/s41597-022-01173-0}{Ссылка на датасет}}
+    \vspace{-0.1cm}
+    Производится предварительное сжатие снимка фМРТ с помощью сверточного слоя MaxPool3D.
+	Значения вокселей нормализуются на $[0; 1]$.
+    \footnotetext[1]{
+    Julia Berezutskaya et al. (2022). Open multimodal iEEG-fMRI dataset from naturalistic stimulation
+    with a short audiovisual film.    
+    \href{https://doi.org/10.1038/s41597-022-01173-0}{https://doi.org/10.1038/s41597-022-01173-0}
+    }
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Зависимость от гиперпараметра $\Delta t$}
@@ -152,6 +255,8 @@
 		\includegraphics[width=0.65\textwidth]{subs_delta_MSE_dt.pdf}
 		\label{fig:3}
 	\end{figure}
+    \vspace{-0.2cm}
+    Качество восстановления зависит от значения $\Delta t$. 
     Наблюдается характерный минимум при $\Delta t \approx 10 \text{ с}$.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
@@ -167,8 +272,9 @@
 		\subfloat[Разность]{\label{fig:4c}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-1000/sub-04-5-1-1000-100-20-_-_-difference.png}}}
 		\label{fig:4}
 	\end{figure}
-    Значения вокселей лежат в отрезке $[0; 1]$, поэтому ошибка порядка $10^{-3} \div 10^{-2}$
-    свидетельствует о достаточно точном предсказании.
+    Усредненная по всем снимкам и вокселям $\text{MSE} = 1.09 \cdot 10^{-4}$.
+    Значения вокселей лежат в отрезке $[0; 1]$, поэтому ошибка на одном снимке
+    порядка $10^{-3} \div 10^{-2}$ свидетельствует о достаточно точном предсказании.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Зависимость от коэффициента регуляризации}
@@ -181,6 +287,7 @@
 		\includegraphics[width=0.65\textwidth]{subs_MSE_alpha.pdf}
 		\label{fig:5}
 	\end{figure}
+    \vspace{-0.2cm}
     Оптимальное значение коэффициента $\alpha \approx 100$.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
@@ -197,6 +304,9 @@
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Инвариантность весов относительно человека}
+    \textbf{Предположение:} зависимость между видеорядом и снимками фМРТ у разных испытуемых
+    имеет схожий характер, а время задержки $\Delta t$ практически совпадает.
+
     Проведена проверка гипотезы инвариантности весов модели относительно человека:
 	можно ли восстановить снимок фМРТ одного испытуемого, используя
 	матрицу весов другого. Использовалась метрика MSE на тестовой выборке.
@@ -214,9 +324,11 @@
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Проверка работы на случайном шуме}
-    Рассмотрено качество работы метода на случайном шуме. В качестве матрицы $\mathbf{X}$
-	взята матрица случайных чисел из $[0; 1]$. Ниже приведены срезы последнего снимка, восстановленного
+    Рассмотрено качество работы метода на случайном шуме. В качестве матрицы объекты-признаки
+	взята матрица случайных чисел $\mathbf{X} = [x^i_j], \ x^i_j \sim U[0, 1]$. 
+    Ниже приведены срезы последнего снимка, восстановленного
     последовательно по всем предсказанным изменениям, и значения метрики MSE.
+    \vspace{-0.5cm}
 	\begin{figure}[h!]
 		\centering
 		\subfloat[Истинный]{\label{fig:8a}{\includegraphics[width=0.33\textwidth]{sub-35-5-1-1000/noised/sub-35-5-1-1000--1-20-_-_-recovered-test.png}}}
@@ -226,6 +338,7 @@
 		\subfloat[Разность]{\label{fig:8c}{\includegraphics[width=0.33\textwidth]{sub-35-5-1-1000/noised/sub-35-5-1-1000--1-20-_-_-recovered-difference.png}}}
 		\label{fig:8}
 	\end{figure}
+    \vspace{-0.2cm}
     \begin{table}[h!]
 		\centering
 		\begin{tabular}{|c|c|c|}
@@ -234,17 +347,22 @@
 			MSE		& 	$2 \cdot 10^{-3}$	 &		$10^{-1}$ \\ \hline
 		\end{tabular}
 		\label{table:2}
-	\end{table}    
+	\end{table}
+    Большое значение MSE при работе на случайном шуме свидетельствует о наличии зависимости 
+    между видеорядом и снимками фМРТ, которую улавливает предложенная модель. 
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Заключение}
-    \begin{itemize}
-        \item Построен метод аппроксимации последовательности снимков фМРТ по видеоряду,
+    \begin{enumerate}
+        \item Предложен метод аппроксимации последовательности снимков фМРТ по видеоряду,
               просматриваемому человеком.
-        \item Справедлива гипотеза о линейной зависимости между данными.
-        \item Подтверждена гипотеза о взаимосвязи снимков в последовательности.
-        \item Проверена гипотеза инвариантности весов модели относительно человека.
-    \end{itemize}
+        \item Проверены гипотезы:
+            \begin{itemize}
+                \item о линейной зависимости между видеорядом и снимками фМРТ;
+                \item о взаимосвязи снимков в последовательности;
+                \item об инвариантности весов модели относительно человека.
+            \end{itemize}
+    \end{enumerate}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \end{document} 
