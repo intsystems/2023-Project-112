@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt]{article}
+\documentclass[a4paper, 12pt]{extarticle}
 
 \input{preamble.tex}
 \renewcommand{\abstractname}{Аннотация}
@@ -259,7 +259,7 @@
 	Наблюдается возрастание ошибки при увеличении времени задержки до нехарактерных
 	для человеского организма значений.
 	
-	\begin{figure}[h!]
+	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.65\textwidth]{subs_delta_MSE_dt.pdf}
 		\caption{Зависимость метрики MSE от гиперпараметра $\Delta t$ на снимках из тестовой выборки}
@@ -273,13 +273,13 @@
 	Так как значения вокселей нормированы на отрезок $[0; 1]$, то ошибка порядка $10^{-3} \div 10^{-2}$
 	свидетельствует о достаточно точном предсказании.
 
-	\begin{figure}[h!]
+	\begin{figure}[h]
 		\centering
-		\subfloat[Истинный]{\label{fig:4a}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-1000/sub-04-5-1-1000-100-20-_-_-test.png}}}
+		\subfloat[Истинный]{\label{fig:4a}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-1000-100-20-_-_-test.png}}}
 		\hfill
-		\subfloat[Восстановленный]{\label{fig:4b}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-1000/sub-04-5-1-1000-100-20-_-_-predicted.png}}}
+		\subfloat[Восстановленный]{\label{fig:4b}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-1000-100-20-_-_-predicted.png}}}
 		\hfill
-		\subfloat[Разность]{\label{fig:4c}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-1000/sub-04-5-1-1000-100-20-_-_-difference.png}}}
+		\subfloat[Разность]{\label{fig:4c}{\includegraphics[width=0.33\textwidth]{sub-04-5-1-1000-100-20-_-_-difference.png}}}
 		\caption{Срез снимка фМРТ из тестовой выборки}
 		\label{fig:4}
 	\end{figure}
@@ -291,7 +291,7 @@
 	Обозначены границы среднеквадратичного отклонения.
 	Из графиков видно, что оптимальное значение коэффициента $\alpha \approx 100$.
 
-	\begin{figure}[h!]
+	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.65\textwidth]{subs_MSE_alpha.pdf}
 		\caption{Зависимость метрики MSE от коэффициента регуляризации $\alpha$ на снимках из тестовой выборки}
@@ -305,7 +305,7 @@
 	Это может говорить о том, что построенная модель, вероятно, имеет определенную
 	статистическую значимость.
 
-	\begin{figure}[h!]
+	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.65\textwidth]{mean_weight_distribution.pdf}
 		\caption{Распределение значений компонент вектора весов}
@@ -321,7 +321,7 @@
 	Значения MSE практически совпадает. Это свидетельствует о справедливости рассматриваемой
 	гипотезы.
 
-	\begin{table}[h!]
+	\begin{table}[h]
 		\centering
 		\caption{Проверка гипотезы инвариантности весов модели относительно человека}
 		\begin{tabular}{|c|c|c|}
@@ -345,29 +345,29 @@
 	значительно выше, что подтверждает наличие корреляции между показаниями датчиков и
 	изображениями из видеоряда. Численные результаты приведены в Таблице~\ref{table:2}.
 
-	\begin{figure}[h!]
+	\begin{figure}[h]
 		\centering
-		\subfloat[Истинный]{\label{fig:7a}{\includegraphics[width=0.33\textwidth]{sub-35-5-1-1000/original/sub-35-5-1-1000--1-20-_-_-recovered-test.png}}}
+		\subfloat[Истинный]{\label{fig:7a}{\includegraphics[width=0.33\textwidth]{original/sub-35-5-1-1000--1-20-_-_-recovered-test.png}}}
 		\hfill
-		\subfloat[Восстановленный]{\label{fig:7b}{\includegraphics[width=0.33\textwidth]{sub-35-5-1-1000/original/sub-35-5-1-1000--1-20-_-_-recovered-predicted.png}}}
+		\subfloat[Восстановленный]{\label{fig:7b}{\includegraphics[width=0.33\textwidth]{original/sub-35-5-1-1000--1-20-_-_-recovered-predicted.png}}}
 		\hfill
-		\subfloat[Разность]{\label{fig:7c}{\includegraphics[width=0.33\textwidth]{sub-35-5-1-1000/original/sub-35-5-1-1000--1-20-_-_-recovered-difference.png}}}
+		\subfloat[Разность]{\label{fig:7c}{\includegraphics[width=0.33\textwidth]{original/sub-35-5-1-1000--1-20-_-_-recovered-difference.png}}}
 		\caption{Срез снимка фМРТ из тестовой выборки}
 		\label{fig:7}
 	\end{figure}
 
-	\begin{figure}[h!]
+	\begin{figure}[h]
 		\centering
-		\subfloat[Истинный]{\label{fig:8a}{\includegraphics[width=0.33\textwidth]{sub-35-5-1-1000/noised/sub-35-5-1-1000--1-20-_-_-recovered-test.png}}}
+		\subfloat[Истинный]{\label{fig:8a}{\includegraphics[width=0.33\textwidth]{noised/sub-35-5-1-1000--1-20-_-_-recovered-test.png}}}
 		\hfill
-		\subfloat[Восстановленный]{\label{fig:8b}{\includegraphics[width=0.33\textwidth]{sub-35-5-1-1000/noised/sub-35-5-1-1000--1-20-_-_-recovered-predicted.png}}}
+		\subfloat[Восстановленный]{\label{fig:8b}{\includegraphics[width=0.33\textwidth]{noised/sub-35-5-1-1000--1-20-_-_-recovered-predicted.png}}}
 		\hfill
-		\subfloat[Разность]{\label{fig:8c}{\includegraphics[width=0.33\textwidth]{sub-35-5-1-1000/noised/sub-35-5-1-1000--1-20-_-_-recovered-difference.png}}}
+		\subfloat[Разность]{\label{fig:8c}{\includegraphics[width=0.33\textwidth]{noised/sub-35-5-1-1000--1-20-_-_-recovered-difference.png}}}
 		\caption{Срез снимка фМРТ из тестовой выборки (на случайных данных)}
 		\label{fig:8}
 	\end{figure}
 
-	\begin{table}[h!]
+	\begin{table}[h]
 		\centering
 		\caption{Качество работы метода на случайных данных}
 		\begin{tabular}{|c|c|c|}
