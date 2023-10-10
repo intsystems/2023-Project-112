@@ -13,10 +13,9 @@ class FramesLoader:
 
     def __init__(self) -> None:
         """Initialize paths for video and frames."""
-        self.fig_path = os.path.join(os.path.dirname(
-            os.path.dirname(os.getcwd())), "figures")
+        self.fig_path = os.path.join(os.path.dirname(os.getcwd()), "figures")
         self.video_path = os.path.join(os.path.dirname(
-            os.path.dirname(os.getcwd())), "src", "Film stimulus.mp4")
+            os.getcwd()), "src", "Film stimulus.mp4")
 
     def _video_to_frames(self):
         """Import video from video_path and divide it into the frames."""
@@ -24,8 +23,8 @@ class FramesLoader:
         success, frame = videocap.read()
         count = 1
         while success:
-            cv2.imwrite(os.path.join(os.path.dirname(os.path.dirname(
-                os.getcwd())), "src", "frames", f"frame_{count}.jpg"), frame)
+            cv2.imwrite(os.path.join(os.path.dirname(os.getcwd()),
+                        "src", "frames", f"frame_{count}.jpg"), frame)
             success, frame = videocap.read()
             count += 1
 
@@ -40,8 +39,8 @@ class FramesLoader:
         ])
 
         for i in range(1, 9751):
-            frame_path = os.path.join(os.path.dirname(os.path.dirname(
-                os.getcwd())), "src", "frames", f"frame_{i}.jpg")
+            frame_path = os.path.join(os.path.dirname(
+                os.getcwd()), "src", "frames", f"frame_{i}.jpg")
             frame = Image.open(frame_path)
             frame_tensor = preprocess(frame)
             frame_tensor = frame_tensor.unsqueeze(0)
@@ -68,8 +67,8 @@ class FramesLoader:
     def get_vector_list(self, load=True):
         """Returns vector_list which consists of frames embeddings."""
         if load == True:
-            vector_list = np.load(os.path.join(os.path.dirname(
-                os.path.dirname(os.getcwd())), "src", "vector_list.npy"))
+            vector_list = np.load(os.path.join(
+                os.path.dirname(os.getcwd()), "src", "vector_list.npy"))
         else:
             vector_list = [vector for vector in self._tensors_to_vectors()]
             np.save("vector_list", vector_list)
@@ -89,7 +88,7 @@ class Sub:
             raise ValueError(f"У {number} испытуемого отсутствуют снимки фМРТ")
         else:
             self.number = number
-        self.path = os.path.join(os.path.dirname(os.path.dirname(os.getcwd())), "src", "ds003688-download", f"sub-{self.number}",
+        self.path = os.path.join(os.path.dirname(os.getcwd()), "src", "ds003688-download", f"sub-{self.number}",
                                  "ses-mri3t", "func", f"sub-{self.number}_ses-mri3t_task-film_run-1_bold.nii.gz")
         self.scan = nib.load(self.path)
         self.data = self.scan.get_fdata()

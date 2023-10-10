@@ -1,19 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-import nibabel as nib
-import torch
-import torchvision.transforms as transforms
-import cv2
 from PIL import Image
-from sklearn.linear_model import LinearRegression
-from scipy.ndimage import gaussian_filter
-from scipy.signal import convolve
-import scipy.signal as signal
-import random
-from sklearn.metrics import r2_score
 import seaborn as sns
-import pickle
 
 
 class Visualizer:
@@ -42,7 +31,7 @@ class Visualizer:
         self.last_slices = slices
         self.last_slice_filename = slice_filename
         folder_path = os.path.join(os.path.dirname(
-            os.path.dirname(os.getcwd())), self.figures, self.filename)
+            os.getcwd()), self.figures, self.filename)
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
         os.chmod(folder_path, 0o400)
@@ -54,7 +43,7 @@ class Visualizer:
 
         plt.colorbar()
         plt.savefig(
-            os.path.join(os.path.dirname(os.path.dirname(os.getcwd())),
+            os.path.join(os.path.dirname(os.getcwd()),
                          self.figures, self.filename, slice_filename),
             dpi=300,
             bbox_inches="tight")
@@ -134,13 +123,13 @@ class Visualizer:
             elif filename_end == "-recovered-predicted.gif":
                 self._show_recovered_scan_predicted_slice(scan, dim, slice)
             # Открываем изображение каждого кадра
-            frame = Image.open(os.path.join(os.path.dirname(os.path.dirname(
-                os.getcwd())), self.figures, self.filename, self.last_slice_filename))
+            frame = Image.open(os.path.join(os.path.dirname(
+                os.getcwd()), self.figures, self.filename, self.last_slice_filename))
             # Добавляем кадр в список с кадрами
             frames.append(frame)
         frames[0].save(
-            os.path.join(os.path.dirname(os.path.dirname(os.getcwd())),
-                         self.figures, self.filename, "GIF-" + self.filename + self.last_slices + filename_end),
+            os.path.join(os.path.dirname(os.getcwd()), self.figures, self.filename,
+                         "GIF-" + self.filename + self.last_slices + filename_end),
             save_all=True,
             append_images=frames[1:],
             optimize=True,
