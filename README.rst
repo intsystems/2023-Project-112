@@ -1,44 +1,32 @@
-|test| |codecov| |docs|
-
-.. |test| image:: https://github.com/Intelligent-Systems-Phystech/ProjectTemplate/workflows/test/badge.svg
-    :target: https://github.com/Intelligent-Systems-Phystech/ProjectTemplate/tree/master
-    :alt: Test status
-    
-.. |codecov| image:: https://img.shields.io/codecov/c/github/Intelligent-Systems-Phystech/ProjectTemplate/master
-    :target: https://app.codecov.io/gh/Intelligent-Systems-Phystech/ProjectTemplate
-    :alt: Test coverage
-    
-.. |docs| image:: https://github.com/Intelligent-Systems-Phystech/ProjectTemplate/workflows/docs/badge.svg
-    :target: https://intelligent-systems-phystech.github.io/ProjectTemplate/
-    :alt: Docs status
-    
-.. |br| raw:: html
-
-  <br/>
-
-
 .. class:: center
 
-    :Название исследуемой задачи: Моделирование показания fMRI по видео, показанному человеку.
-    :Тип научной работы: M1P/НИР
-    :Авторы: Даниил Дмитриевич Дорин |br|
-             Никита Сергеевич Киселев
-    :Научный руководитель: PhD, Грабовой Андрей Валериевич
+    :Название исследуемой задачи: Байесовский подход к выбору достаточного размера выборки
+    :Тип научной работы: ВКР
+    :Автор: Киселев Никита Сергеевич
+    :Научный руководитель: к.ф.-м.н. Грабовой Андрей Валериевич
 
-Abstract
-========
+Аннотация
+=========
+
+Исследуется проблема восстановления зависимости между показаниями датчиков фМРТ и восприятием внешнего мира человеком.
+Проводится анализ зависимости между последовательностью снимков фМРТ и видеорядом, просматриваемым человеком.
+На основе исследования зависимости предлагается метод аппроксимации показаний фМРТ по просматриваемому видеоряду.
+Для анализа предложенного метода проводится вычислительный эксперимент на выборке, 
+полученной при томографическом обследовании большого числа испытуемых.
+
+Установка
+=========
+
+Чтобы повторить результаты вычислительного эксперимента, рекомендуется установить все необходимые зависимости.
+Файл ``requirements.txt`` находится в директории ``code``.
+Для установки
+
+#. Сделайте ``git clone`` этого репозитория.
+#. Создайте новое ``conda`` окружение и активируйте его.
+#. Запустите ``pip install -r requirements.txt``.
 
 
+Демонстрация работы
+===================
 
-Research publications
-===============================
-1. 
-
-Presentations at conferences on the topic of research
-================================================
-1. 
-
-Software modules developed as part of the study
-======================================================
-1. A python package *mylib* with all implementation `here <https://github.com/Intelligent-Systems-Phystech/ProjectTemplate/tree/master/src>`_.
-2. A code with all experiment visualisation `here <https://github.com/Intelligent-Systems-Phystech/ProjectTemplate/blob/master/code/main.ipynb>`_. Can use `colab <http://colab.research.google.com/github/Intelligent-Systems-Phystech/ProjectTemplate/blob/master/code/main.ipynb>`_.
+Код со всеми проведенными вычислительными экспериментами `здесь <https://github.com/intsystems/2023-Project-112/blob/master/code/main.ipynb>`_.
