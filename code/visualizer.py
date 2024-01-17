@@ -153,12 +153,13 @@ class Visualizer:
     def show_voxel_weight_distribution(self, voxel: int):
         ax = sns.histplot(
             self.model.W[voxel, :], element="poly", linewidth=0, kde=True)
-        ax.set(xlabel="Значение компоненты вектора $w$")
-        ax.set(ylabel="Количество компонент вектора $w$")
+        ax.set(xlabel="Значение компоненты вектора весов")
+        ax.set(ylabel="Количество компонент")
 
     # Распределение компонент вектора весов в среднем по всем вокселям
     def show_mean_weight_distribution(self):
         W_mean_rows = np.mean(self.model.W, axis=0)
         ax = sns.histplot(W_mean_rows, element="poly", linewidth=0, kde=True)
-        ax.set(xlabel="Значение компоненты вектора $w$")
-        ax.set(ylabel="Количество компонент вектора $w$")
+        ax.set(xlabel="Значение компоненты вектора весов")
+        ax.set(ylabel="Количество компонент")
+        plt.grid(alpha=0.1)
