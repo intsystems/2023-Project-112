@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import colors
 import os
 from PIL import Image
 import seaborn as sns
@@ -16,16 +17,30 @@ class Visualizer:
         if self.model.alpha > 0:
             self.filename += f"-{self.model.alpha}"
 
-    def show_scan_slice(self, scan, scan_number: int, dim: int, slice: int, title, filename_end):
-        if dim == 0:
-            scan_slice = scan[slice, :, :].T
-            slices = f"-{slice}-_-_"
-        elif dim == 1:
-            scan_slice = scan[:, slice, :].T
-            slices = f"-_-{slice}-_"
-        elif dim == 2:
-            scan_slice = scan[:, :, slice].T
-            slices = f"-_-_-{slice}"
+    def show_scan_slice(self, scan, scan_number: int, dim: int, slice: int, title, filename_end, mask=None):
+        if mask is None:
+            if dim == 0:
+                scan_slice = scan[slice, :, :].T
+                slices = f"-{slice}-_-_"
+            elif dim == 1:
+                scan_slice = scan[:, slice, :].T
+                slices = f"-_-{slice}-_"
+            elif dim == 2:
+                scan_slice = scan[:, :, slice].T
+                slices = f"-_-_-{slice}"
+        else:
+            if dim == 0:
+                scan_slice = scan[slice, :, :].T
+                scan_slice_masked = mask[slice, :, :].T
+                slices = f"-{slice}-_-_"
+            elif dim == 1:
+                scan_slice = scan[:, slice, :].T
+                scan_slice_masked = mask[:, slice, :].T
+                slices = f"-_-{slice}-_"
+            elif dim == 2:
+                scan_slice = scan[:, :, slice].T
+                scan_slice_masked = mask[:, :, slice].T
+                slices = f"-_-_-{slice}"
         slice_filename = self.filename + \
             f"-{scan_number}" + slices + filename_end
         self.last_slices = slices
@@ -36,12 +51,17 @@ class Visualizer:
             os.makedirs(folder_path)
         os.chmod(folder_path, 0o400)
         print(title)
+
         if filename_end == "-difference.png" or filename_end == "-recovered-difference.png" or filename_end == "-delta.png" or filename_end == "-recovered-delta.png":
             plt.imshow(scan_slice, cmap="gray", origin="lower")
         else:
             plt.imshow(scan_slice, cmap="gray", origin="lower", vmin=0, vmax=1)
 
         plt.colorbar()
+
+        cmap = colors.ListedColormap(['black', 'red'])
+        plt.imshow(scan_slice_masked, cmap=cmap, origin="lower", alpha=0.3)
+        
         plt.savefig(
             os.path.join(os.path.dirname(os.getcwd()),
                          self.figures, self.filename, slice_filename),
@@ -49,25 +69,25 @@ class Visualizer:
             bbox_inches="tight")
         plt.show()
 
-    def _show_scan_test_slice(self, scan: int, dim: int, slice: int):
+    def _show_scan_test_slice(self, scan: int, dim: int, slice: int, mask=None):
         scan_test = self.model.Y_test.T[scan].reshape(
             (self.model._d1, self.model._d2, self.model._d3))
-        self.show_scan_slice(scan_test, scan, dim, slice, "TEST", "-test.png")
+        self.show_scan_slice(scan_test, scan, dim, slice, "TEST", "-test.png", mask)
 
-    def _show_scan_predicted_slice(self, scan: int, dim: int, slice: int):
+    def _show_scan_predicted_slice(self, scan: int, dim: int, slice: int, mask=None):
         scan_predicted = self.model.Y_test_predicted.T[scan].reshape(
             (self.model._d1, self.model._d2, self.model._d3))
         self.show_scan_slice(scan_predicted, scan, dim,
-                             slice, "PREDICTED", "-predicted.png")
+                             slice, "PREDICTED", "-predicted.png", mask)
 
-    def _show_scan_difference_slice(self, scan: int, dim: int, slice: int):
+    def _show_scan_difference_slice(self, scan: int, dim: int, slice: int, mask=None):
         scan_test = self.model.Y_test.T[scan].reshape(
             (self.model._d1, self.model._d2, self.model._d3))
         scan_predicted = self.model.Y_test_predicted.T[scan].reshape(
             (self.model._d1, self.model._d2, self.model._d3))
         scan_difference = abs(scan_test - scan_predicted)
         self.show_scan_slice(scan_difference, scan, dim,
-                             slice, "DIFFERENCE", "-difference.png")
+                             slice, "DIFFERENCE", "-difference.png", mask)
 
     def _show_recovered_scan_test_slice(self, scan: int, dim: int, slice: int):
         scan_test = self.model.Y_test.T[scan].reshape(
@@ -96,10 +116,10 @@ class Visualizer:
         self.show_scan_slice(scan_difference, scan, dim,
                              slice, "DIFFERENCE", "-recovered-difference.png")
 
-    def show_scan_slices(self, scan: int, dim: int, slice: int):
-        self._show_scan_test_slice(scan, dim, slice)
-        self._show_scan_predicted_slice(scan, dim, slice)
-        self._show_scan_difference_slice(scan, dim, slice)
+    def show_scan_slices(self, scan: int, dim: int, slice: int, mask=None):
+        self._show_scan_test_slice(scan, dim, slice, mask)
+        self._show_scan_predicted_slice(scan, dim, slice, mask)
+        self._show_scan_difference_slice(scan, dim, slice, mask)
 
     def show_recovered_scan_slices(self, scan: int, dim: int, slice: int):
         if self.model.delta == False:
