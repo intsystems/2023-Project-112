@@ -59,8 +59,9 @@ class Visualizer:
 
         plt.colorbar()
 
-        cmap = colors.ListedColormap(['black', 'red'])
-        plt.imshow(scan_slice_masked, cmap=cmap, origin="lower", alpha=0.3)
+        if mask is not None:
+            cmap = colors.ListedColormap(['black', 'red'])
+            plt.imshow(scan_slice_masked, cmap=cmap, origin="lower", alpha=0.3)
         
         plt.savefig(
             os.path.join(os.path.dirname(os.getcwd()),
