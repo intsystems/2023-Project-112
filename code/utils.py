@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 import pickle
+import re
 
 
 def save_object(obj, filename):
@@ -39,7 +40,7 @@ def get_occur():
     filenames = []
     objectnames = []    
 
-    for root, dirs, files in os.walk(os.path.join(os.path.dirname(os.getcwd()), 'src', 'annotations', 'video')):
+    for root, dirs, files in os.walk(os.path.join(os.path.dirname(os.getcwd()), 'src', 'ds003688-download', 'stimuli', 'annotations', 'video')):
         for filename in files:
             filenames.append(os.path.join(root, filename))
             objectname = extract_last_word_from_filename(filename)
@@ -64,7 +65,7 @@ def get_occur():
         #objects[objectname]['occurences'] = vector
         #pairs.append((objectname, df.shape[0]))
         
-    occur = np.array(occur)
+    occur = np.array(occur).T
     #pairs.sort(key=lambda x: x[1], reverse=True) # пары (объек, число появлений в кадре), отсортированные по убыванию числа появлений
    
     return occur
