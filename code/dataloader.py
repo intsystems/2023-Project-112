@@ -83,7 +83,6 @@ class FramesLoader:
             np.save(filename, vector_list)
         return vector_list
 
-
 class Sub:
 
     """Responsible for the subject and contains information about his data."""
