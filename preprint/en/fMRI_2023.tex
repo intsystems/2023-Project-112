@@ -326,7 +326,7 @@ indicates a fairly accurate prediction.
 \paragraph*{Delay time analysis.}
 
 The dependence of recovery quality on delay time was investigated.
-The 47th subject was chosen for the example.
+The 47th subject and 4x compression were chosen for the example.
 The left graph in Figure~\ref{fig:mse-dt} shows the dependence of the MSE metric
 on the delay time $\Delta t$.
 The study confirms that the most active part of the brain is the most active part of the brain 
@@ -343,6 +343,7 @@ descending order of the total absolute change in values.
 Then 3\% of voxels with the largest changes were selected.
 The MSE metric was recalculated exactly on this part of the image.
 The corresponding graph is shown on the right side of Figure~\ref{fig:mse-dt}.
+There is a more distinct minimum at $\Delta t \approx 5$ seconds.
 
 \begin{figure}[h!]
 	\centering
@@ -362,9 +363,9 @@ The corresponding graph is shown on the right side of Figure~\ref{fig:mse-dt}.
 	\label{fig:mse-dt}
 \end{figure}
 
-\paragraph*{Optimal regularization coefficient.}
+\paragraph*{Optimal regularization parameter.}
 
-The dependence of MSE on the regularization coefficient $\alpha$ was analyzed.
+The dependence of MSE on the regularization parameter $\alpha$ was analyzed.
 Compression factors 1, 2, 4, and 8 were considered.
 The corresponding graphs are shown in Figure~\ref{fig:mse-alpha}.
 Averaging over the subjects was performed to construct the graph.
@@ -375,7 +376,7 @@ The curve shape is preserved regardless of the compression factor of fMRI images
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.65\textwidth]{subs_MSE_alpha.pdf}
-	\caption{Dependence of MSE metric on regularization coefficient $\alpha$ on images from the test sample}
+	\caption{Dependence of MSE metric on regularization parameter $\alpha$ on images from the test sample}
 	\label{fig:mse-alpha}
 \end{figure}
 

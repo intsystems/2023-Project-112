@@ -181,6 +181,8 @@ class Visualizer:
     def show_mean_weight_distribution(self):
         W_mean_rows = np.mean(self.model.W, axis=0)
         ax = sns.histplot(W_mean_rows, element="poly", linewidth=0, kde=True, bins=30)
-        ax.set(xlabel="Значение компоненты вектора весов")
-        ax.set(ylabel="Количество компонент")
+        #ax.set(xlabel="Значение компоненты вектора весов")
+        #ax.set(ylabel="Количество компонент")
+        ax.set(xlabel="Weights vector component value")
+        ax.set(ylabel="Number of components")
         plt.grid(alpha=0.1)
