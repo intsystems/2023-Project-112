@@ -30,7 +30,9 @@ class Preprocessor:
                  for i in range(self.N)]  # (номер изображения, номер снимка)
 
         if (self.coef > 1):  # сжатие снимка фМРТ
-            maxpool = torch.nn.MaxPool3d(
+            #maxpool = torch.nn.MaxPool3d(
+            #    kernel_size=self.coef, stride=self.coef)
+            maxpool = torch.nn.AvgPool3d(
                 kernel_size=self.coef, stride=self.coef)
             input_tensor = self.sub.tensor.permute(3, 0, 1, 2)
             output_tensor = maxpool(input_tensor).permute(1, 2, 3, 0)
